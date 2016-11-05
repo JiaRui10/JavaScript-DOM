@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小庄 http://github.com/JiaRui10" />
+<title>新建网页</title>
+</head>
+    <body>
+		<div id="new"></div>
+
+    		<!-- 1、之前的例子，我们创建的所有一切都包含在了初始化的页面中。只不过我们通过脚本对它进行了一番重排而已。
+
+    		怎么才能真正得到原来并不存在于初始页面中的内容呢。  →  Ajax
+    		2、Ajax的主要优势就是对页面的请求以异步方式发送到服务器。而服务器不会用整个页面来响应请求，它会在后台处理请求，与此同时用户还能继续浏览页面并与页面交互。你的脚本则可以按需加载和创建页面内容，而不会打断用户的浏览体验。
+
+    		3、Ajax技术的核心就是XMLHttpRequest对象。注意：【不同浏览器实现XMLHttpRequest对象的方式不太一样。为了保证跨浏览器，不得不为同样的事情写不同的代码分支】 -->
+		<!-- <script src="scripts/addLoadEvent.js"></script>
+		 <script src="scripts/getHTTPObject.js"></script>
+		 <script src="scripts/getNewContent.js"></script> -->
+
+
+		 <!-- 4、模拟服务器的响应。创建一个example.txt文件，写上内容。充当服务器端脚本的输出 -->
+		 <script>
+		 	// 5、getHTTPObject.js文件中的getHTTPObject函数
+		 	function getHTTPObject(){
+		 		if(typeof XMLHttpRequest == "undefined"){
+		 			XMLHttpRequest = function(){
+		 				try {return new ActiveXObject("Msxml2.XMLHTTP.6.0");}
+		 					catch (e) {}
+		 				try {return new ActiveXObject("Msxml2.XMLHTTP.3.0");}
+		 					catch (e) {}
+		 				try {return new ActiveXObject("Msxml2.XMLHTTP");}
+		 					catch (e) {}
+		 				return false;
+		 			};
+		 		}
+		 		return new XMLHttpRequest();
+		 	}
+
+		 	// 6、XMLHttpRequest对象有许多的方法，最有用：open。它用来指定服务器上将要访问的文件，指定请求类型：GET、POST或SEND。这个方法的第三个参数用于指定请求是否以异步方式发送和处理。
+		 	function getNewContent(){
+		 		var request = getHTTPObject();
+		 		if(request){
+		 			request.open("GET","example.txt",true);
+		 			// 它会在服务器给XMLHttpRequest对象送回响应的时候被触发执行
+		 			request.onreadystatechange = function(){
+		 				if(request.readyState == 4){
+		 					// 处理响应。
+		 					var para = document.createElement("p");
+		 					var txt = document.createTextNode(request.responseText);
+		 					// alert(request.responseText);这里有问题：为什么request.responseText是空的？
+		 					para.appendChild(txt);
+		 					document.getElementById("new").appendChild(para);
+		 				}
+		 			};
+		 			request.send(null);
+		 		}else{
+		 			alert("Sorry,your browser dosen\'t support XMLHttpRequest");
+		 		}
+		 	}
+
+		 	function addLoadEvent(func){
+                var oldonload = window.onload;
+                if(typeof window.onload != "function"){
+                    window.onload = func;
+                }else{
+                    window.onload = function(){
+                        oldonload();
+                        func();
+                    };
+                }
+            }
+
+            // 7、
+            addLoadEvent(getNewContent);
+
+            // 8、访问服务器发送回来的数据要通过两个属性完成。一个是responseText属性，这个属性用于保存文本字符串形式的而数据。另一个属性是responseXML属性，用于保存Content-Type头部中指定为"text/xml"的数据，其实是一个DocumentFragment对象。你可使用各种DOM方法来处理这个对象。而这也正是XMLHttpRequest这个名称里有XML的原因。
+
+
+            // 9、构建Ajax网站的最好方法，也是先构建一个常规的网站，然后Hijax它。
+            // Hijax  →  "渐进增强地使用Ajax"
+            // Ajax应用主要依赖后台服务器，实际上是服务器端的脚本语言完成了绝大部分工作。XMLHttpRequest对象只是负责传递请求和响应。
+            // Ajax应用主要依赖于服务器端处理，而非客户端处理。既然如此，它就没有理由不能做到平稳退化。
+		 </script>
+    </body>
+</html>

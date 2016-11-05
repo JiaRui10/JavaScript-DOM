@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+<title>Image Gallery</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="布尔教育 http://www.itbool.com" />
+<!-- 10、增加样式 -->
+<style>
+    body {
+        font-family: "Helvetice","Arial",serif;
+        color: #333;
+        background-color: #ccc;
+        margin: 1em 10%;
+    }
+    h1 {
+        color: #333;
+        background-color: transparent;
+    }
+    a {
+        color: #c60;
+        background-color: transparent;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    ul {
+        padding: 0;
+    }
+    li {
+        float: left;
+        padding: 1em;
+        list-style: none;
+    }
+    img {
+        display: block;
+        clear: both;
+    }
+</style>
+</head>
+    <body>
+        <h1>万年雪山BOSS</h1>
+        <ul>
+            <li>
+                <!-- 3、给图片列表的链接添加行为，也就是事件处理函数 -->
+                <a href="images/001.jpg" title="冰心少年" onclick="showPic(this);return false;">冰心少年</a>
+            </li>
+            <li>
+                <a href="images/002.jpg" title="斯卡萨的巢穴" onclick="showPic(this);return false;">冰龙斯卡萨</a>
+            </li>
+            <li>
+                <a href="images/003.jpg" title="冰雪宫殿" onclick="showPic(this);return false;">冰雪女王</a>
+            </li>
+            <li>
+                <a href="images/004.jpg" title="白色废墟" onclick="showPic(this);return false;">塞斯奇</a>
+            </li>
+        </ul>
+
+        <!-- 1、占位符 -->
+        <img src="images/001.jpg" alt="my image gallery" id="placeholder" />
+
+        <!-- 7、增加一段描述 -->
+        <p id="description">Choose an images.</p>
+
+        <script>
+            // 2、为了把"占位符"图片替换为想要查看的图片，需要改变它的src属性。如以下函数
+            function showPic(whichPic){
+                var source = whichPic.getAttribute("href");
+                var placeholder = document.getElementById("placeholder");
+                placeholder.setAttribute("src" , source);
+
+                // 8、改变p元素的描述
+                var text = whichPic.getAttribute("title");
+                var description = document.getElementById("description");
+
+                // 9、nodeValue属性：用来得到（和设置一个节点的值）
+                // 注意：<p>元素本身的nodeValue属性是一个空值。实际上，想要得到的，是它的第一个子节点的nodeValue属性值
+                // childNodes数组的第一个元素：node.firstChild  node.childNodes[0]
+                // childNodes数组的最后一个元素：node.lastChild  node.childNodes[node.childNodes.length-1]
+                description.firstChild.nodeValue = text;
+            }
+
+            // 4、childNodes属性：可以用来获取任何一个元素的所有子【元素】，它是一个包含这个元素【全部】子元素的【数组】
+            function countBodyChildren(){
+                var body_element = document.getElementsByTagName("body")[0];
+                alert(body_element.childNodes.length);
+            }
+
+            // 5、想让函数在页面加载时执行，这需要使用onload事件处理函数
+            // window.onload = countBodyChildren;
+
+            // 6、由childNodes属性返回的数组包含所有类型的节点，而不仅仅是元素节点。
+            // nodeType属性：可以让我们知道自己正在与哪一种节点打交道。返回值：1：元素节点   2：属性节点  3：文本节点
+        </script>
+    </body>
+</html>

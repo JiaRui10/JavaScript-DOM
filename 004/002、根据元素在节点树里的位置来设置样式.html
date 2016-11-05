@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小庄 http://github.com/JiaRui10" />
+<title>新建网页</title>
+</head>
+	<h1>Hold the front page</h1>
+	<p>This first parapraph leads you in.</p>
+	<p>Now you get the nitty-gritty of the story.</p>
+	<p>The most important information is delivered first.</p>
+	<h1>Extra! Extral!</h1>
+	<p>Further developments are unfolding.</p>
+	<p>You can read all about it here.</p>
+	
+
+    <body>
+    	<script>
+    		// 1、利用DOM找出文档中的所有h1元素，然后再同样地找出紧跟在每个h1元素后面的那个元素，并把样式添加给它
+    		window.onload = styleHeaderSiblings;
+
+    		// 2、下一个元素节点。而不是下一个节点
+    		function getNextElement(node){
+    			if(node.nodeType==1){
+    				return node;
+    			}
+    			if(node.nextSibling){
+    				return getNextElement(node.nextSibling);
+    			}
+   				return null;
+   			}
+
+    		// 3、
+    		function styleHeaderSiblings(){
+    			if(!document.getElementsByTagName) return false;
+    			var headers = document.getElementsByTagName("h1");
+    			var elem;
+    			for(var i=0;i<headers.length;i++){
+    				elem = getNextElement(headers[i].nextSibling);
+    				elem.style.fontWeight = "bold";
+    				elem.style.fontSize = "1.2em";
+    			}
+    		}
+
+    		// 4、从理论上讲，这类样式还是应该用CSS来设置；但在实践中，用CSS来设置这类样式的难度往往会很大。具体到这个例子，其实只需给紧跟在h1元素后面的每个元素添加一个class属性，就可以用CSS来获得同样的效果。
+    		// 但如果文档的内容需要定期编辑和刷新，添加class属性的工作很快就会变成一种负担。
+    	</script>
+    </body>
+</html>

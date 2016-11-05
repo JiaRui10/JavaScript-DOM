@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小庄 http://github.com/JiaRui10" />
+<title>新建网页</title>
+<style>
+	/*3*/
+	.intro {
+		font-weight: bold;
+		font-size: 1.4em;
+	}
+</style>
+</head>
+    <body>
+    	
+    	<script>
+
+    		
+    		function styleHeaderSiblings(){
+    			if(!document.getElementsByTagName) return false;
+    			var heaaders = document.getElementsByTagName("h1");
+    			var elem;
+    			for(var i=0;i<heaaders.length;i++){
+    				elem = getNextElement(heaaders[i].nextSibling);
+
+    				// 2、与其使用DOM直接改变某个元素的样式，不如通过JavaScript代码去更新这个元素的class属性
+    				addClass(element,"intro");
+    			}
+    		}
+
+    		// 1、参数一：需要添加新class的元素，参数二：新的class设置值
+    		function addClass(element,value){
+    			if(!element.className){
+    				element.className = value;
+    			}else{
+    				newClassName = element.className;
+    				newClassName += " ";
+    				newClassName += value;
+    				element.className = newClassName;
+    			}
+    		}
+
+    		// 4、现在是通过CSS而不是DOM去设置样式。JavaScript函数现在更新的是className属性，根本没碰style属性。这确保了网页的表示层和行为层分离得更加彻底。
+    	</script>
+    </body>
+</html>

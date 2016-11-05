@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小庄 http://github.com/JiaRui10" />
+<title>新建网页</title>
+</head>
+    <body>
+    	<p id="message">Whee!</p>
+
+    	<script>
+    		addLoadEvent(positionMessage);
+    		// addLoadEvent(moveMessage);   // 4、在3秒钟的等待时间里，随时可以用clearTimeout(movement)来取消这一"跳跃"行为
+
+
+    		function addLoadEvent(func){
+    			var oldonload = window.onload;
+    			if(typeof window.onload != "function"){
+    				window.onload = func;
+    			}else{
+    				window.onload = function(){
+    					oldonload();
+    					func();
+    				};
+    			}
+    		}
+
+    		// 1、设置这个元素的位置
+    		function positionMessage(){
+    			if(!document.getElementById) return false;
+    			if(!document.getElementById("message")) return false;
+    			var elem = document.getElementById("message");
+
+    			elem.style.position = "absolute";
+    			elem.style.left = "50px";
+    			elem.style.top = "100px";
+
+    			// 3、3秒后才去调用moveMessage函数。注意movement是全局变量
+    			movement = setTimeout("moveMessage()" , 3000);
+    		}
+    		// 2、改变某个元素的位置
+    		function moveMessage(){
+    			if(!document.getElementById) return false;
+    			if(!document.getElementById("message")) return false;
+    			var elem = document.getElementById("message");
+    			elem.style.left = "200px";
+    		}
+    	</script>
+    </body>
+</html>

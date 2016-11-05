@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+<title>新建网页</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="布尔教育 http://www.itbool.com" />
+</head>
+    <body>
+    	<div id="testdiv"></div>
+
+    	<script>
+    		window.onload = function(){
+    			// 1、创建一个新节点，并让它成为这个文档某个现有节点的一个子节点
+    			// var para = document.createElement("p");
+    			// var testdiv = document.getElementById("testdiv");
+    			// testdiv.appendChild(para);
+
+    			// 2、创建p元素的文本节点。注意：【把新节点插入某个文档的节点树的办法并非只有一种】
+    			// var para = document.createElement("p");
+    			// var txt = document.createTextNode("Hello world");
+    			// para.appendChild(txt);
+    			// var testdiv = document.getElementById("testdiv");
+    			// testdiv.appendChild(para);
+
+    			// 3、一个更复杂的组合
+    			var para = document.createElement("p");
+    			var txt1 = document.createTextNode("This is ");
+    			var emphasis = document.createElement("em");
+    			var txt2 = document.createTextNode("my");
+    			var txt3 = document.createTextNode(" content.");
+    			para.appendChild(txt1);
+    			emphasis.appendChild(txt2);
+    			para.appendChild(emphasis);
+    			para.appendChild(txt3);
+    			var testdiv = document.getElementById("testdiv");
+    			testdiv.appendChild(para);
+    		};
+    	</script>
+    </body>
+</html>

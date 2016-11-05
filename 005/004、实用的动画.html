@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小庄 http://github.com/JiaRui10" />
+<title>新建网页</title>
+<style>
+	/*1、每次都想让下面这个图片的某个100*100像素的部分出现。无法用JavaScript做到这一点，但可以用CSS来做*/
+	/*CSS的overflow属性用来处理一个元素的尺寸超出其容器尺寸的情况。*/
+
+	/*3*/
+	#slideshow {
+		width: 100px;
+		height: 100px;
+		position: relative;
+		/*把position设置为relative很重要，因为我们想让子图片使用绝对位置。通过使用值relative，子元素的(0,0)坐标将固定在slideshow div的左上角*/
+		overflow: hidden;
+	}
+</style>
+</head>
+    <body>
+    	<h1>Web Design</h1>
+    	<p>These are the things your should know.</p>
+    	<ol id="linklist">
+    		<li>
+    			<a href="structure.html">Structure</a>
+    		</li>
+    		<li>
+    			<a href="presentation.html">Presentation</a>
+    		</li>
+    		<li>
+    			<a href="behavior.html">Behavior</a>
+    		</li>
+    	</ol>
+    	<!-- 2、把这张图片放到一个容器里 -->
+    	<div id="slideshow">
+    		<img src="images/topics.gif" alt="building blocks of web design" id="preview">
+    	</div>
+
+
+    	<script>
+    		window.onload = prepareSlideshow;
+    		// 5、运行。如果把鼠标指针在链接之间快速地来回移动，动画效果将变得混乱起来。
+    		// 每当用户把鼠标指针悬停在某个链接上，不管上一次调用是否已经把图片移动到位，moveElement函数都会被再次调用并试图把这个图片移动到另一个地方去。于是，当用户在链接之间快速移动鼠标时，movement变量就会像一条拔河绳那样来回变化，而moveElement函数就会试图把图片同时移动到两个不同的地方去。
+    		// 如果用户移动鼠标的速度够快，积累在setTimeout队列里的事件就会导致动画效果产生滞后。为了清除动画滞后的现象，可以用clearTimeout函数清除积累在setTimeout队列里的事件。
+
+
+    		// 4
+    		function prepareSlideshow(){
+    			if(!document.getElementsByTagName) return false;
+    			if(!document.getElementById) return false;
+    			if(!document.getElementById("linklist")) return false;
+    			if(!document.getElementById("preview")) return false;
+
+    			var preview = document.getElementById("preview");
+    			preview.style.position = "absolute";
+    			preview.style.left = "0px";
+    			preview.style.top = "0px";
+
+    			// 取得列表中的所有链接
+    			var list = document.getElementById("linklist");
+    			var links = list.getElementsByTagName("a");
+    			// 为mouseover事件添加动画效果
+    			links[0].onmouseover = function(){
+    				moveElement("preview",-100,0,10);
+    			};
+    			links[1].onmouseover = function(){
+    				moveElement("preview",-200,0,10);
+    			};
+    			links[2].onmouseover = function(){
+    				moveElement("preview",-300,0,10);
+    			};
+    		}
+
+
+
+    		function moveElement(elementID,final_x,final_y,interval){
+                if(!document.getElementById) return false;
+                if(!document.getElementById(elementID)) return false;
+                var elem = document.getElementById(elementID);
+
+                // 7、
+                if(elem.movement){
+                	clearTimeout(elem.movement);
+                }
+
+                // 10、添加安全检查。因为elem元素不一定有left和top样式
+                if(!elem.style.left) elem.style.left = "0px";
+                if(!elem.style.top) elem.style.top = "0px";
+
+                var xpos = parseInt(elem.style.left);
+                var ypos = parseInt(elem.style.top);
+                // 9、声明dist
+                var dist = 0;
+
+                if(xpos == final_x && ypos == final_y){
+                    return true;
+                }
+                // 8、加快移动速度
+                if(xpos < final_x){
+                    // xpos++;
+                    // 如果那个元素与它的目的地距离较远，就让它每次前进一大步，如果那个元素与它的目的地距离较远，就让它每次前进一小步。
+                    // 不过，当xpos与final_x之间的差距小于10的时候，用这个差距除以10的结果将小于1，而我们不可能把一个元素移动不到一个像素的距离
+                    // Math对象的ceil方法来解决，它可以返回不小于dist的值的一个整数。移动十分之一。
+                    dist = Math.ceil((final_x - xpos)/10);
+                    xpos = xpos + dist;
+                }
+                if(xpos > final_x){
+                    // xpos--;
+                    dist = Math.ceil((xpos - final_x)/10);
+                    xpos = xpos - dist;
+                }
+                if(ypos < final_y){
+                    // ypos++;
+                    dist = Math.ceil((final_y - ypos)/10);
+                    ypos = ypos + dist;
+                }
+                if(ypos > final_y){
+                    // ypos--;
+                    dist = Math.ceil((ypos - final_y)/10);
+                    ypos = ypos - dist;
+                }
+                elem.style.left = xpos + "px";
+                elem.style.top = ypos + "px";
+
+                var repeat = "moveElement('" + elementID + "'," + final_x + "," + final_y + "," + interval + ")";
+                // movement = setTimeout(repeat , interval);
+
+                // 6、把变量movement从一个全局变量改变为正在被移动的元素的属性。这样一来，就可以测试它是否已经存在，并在它已经存在的情况下使用clearTimeout函数
+                elem.movement = setTimeout(repeat , interval);
+            }
+    	</script>
+    </body>
+</html>

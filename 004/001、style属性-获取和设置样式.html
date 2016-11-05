@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="小庄 http://github.com/JiaRui10" />
+<title>新建网页</title>
+</head>
+    <body>
+    	<!-- 1 -->
+    	<p id="example" style="color:gray; font-family:'Arial',sans-serif;">
+    		An example of a paragraph.
+    	</p>
+
+    	<script>
+    		window.onload = function(){
+    			var para = document.getElementById("example");
+
+    			// 2、不仅文档里的每个元素都是一个对象，每个元素都有一个style属性，它们也是一个对象
+    			alert(typeof para.nodeName);
+    			alert(typeof para.style);
+
+    			// 3、获取样式
+    			alert("The color is "+para.style.color);
+    			// 4、当你需要引用一个中间带减号的CSS属性时，DOM要求你用驼峰命名法。如font-family要变为fontFamily
+    			alert("The font family is "+para.style.fontFamily);
+    			// 5、DOM在表示样式属性时采用的单位并不总是与它们在CSS样式表里的设置相同。如颜色有多种表示方法
+
+    			// 6、注意：【style属性只能返回内嵌样式】
+
+
+
+
+                // 7、设置样式
+                para.style.color = "black";
+                // 8、复合属性
+                para.style.font = "2em 'Times',serif";
+    		};
+    	</script>
+    </body>
+</html>
